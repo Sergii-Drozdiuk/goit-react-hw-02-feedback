@@ -1,21 +1,59 @@
-import styles from './App.module.css';
+import { Component } from 'react';
+import { Section } from './Section/Section';
+import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
+import { Notification } from './Notification/Notification';
+import { Statistics } from './Statistics/Statistics';
+import { StatisticsTitle } from './StatisticsTitle/StatisticsTitle';
+export class App extends Component {
+	state = {
+		good: 0,
+		neutral: 0,
+		bad: 0,
+	};
 
-export const App = () => (
-  <>
-    <h1 className={styles.title}>Hello, React</h1>
-  </>
-);
+	buttons = ['good', 'neutral', 'bad'];
+	title = 'Please leave feedback';
+	statisticsTitle = 'Statistics'
+	notificationText = 'There is no feedback'
 
-//! Або можна зробити ось так без import styles
+	countTotalFeedback = () => {
+		const { good, neutral, bad } = this.state;
+		return (good + neutral + bad);
+	};
 
-// export const App = () => (
-//   <>
-//     <h1 className="text-yellow-300 font-extrabold font-sans text-6xl">Hello, React</h1>
-//   </>
-// );
+	countPositiveFeedbackPercentage = () => {
+		return Math.round((this.state.good * 100) / this.countTotalFeedback());
+	};
 
-//! Моя вам порада - оскільки ми використовуємо Tailwind,
-//! ми повністю позбавляємося CSS файлів, тому краще писати інлайн стилі,
-//! оскільки Tailwind сам все зробить за нас, а також неперевершено оптимізує
-//! CSS файли, тому бийте компоненти на маленькі під-компоненти
-//! щоб воно виглядало чисто, і постарайтеся повністю позбавитися від CSS файлів.
+	onChangeFeedback = newState => {
+		this.setState(prevState => ({
+			[newState]: prevState[newState] + 1,
+		}));
+	};
+
+	render() {
+		return (
+			<>
+				<Section title={this.title}>
+					<FeedbackOptions
+						buttons={this.buttons}
+						onChangeFeedback={this.onChangeFeedback}
+					/>
+					<StatisticsTitle
+						title={this.statisticsTitle}
+					/>
+          {this.countTotalFeedback() ? (
+            <Statistics
+               feedback={this.state}
+					totalFeedback={this.countTotalFeedback()}
+					positiveFeedback={this.countPositiveFeedbackPercentage()}
+				/>
+					) : (
+				<Notification notificationText={this.notificationText}/>
+					)}
+				</Section>
+			</>
+		);
+	}
+}
+

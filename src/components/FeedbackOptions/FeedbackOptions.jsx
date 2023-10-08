@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 export const FeedbackOptions = ({ buttons, onChangeFeedback }) => {
 	return (
-		<div className='mb-4 flex w-full h-12 border-lime-500 place-content-evenly items-center rounded-lg border'>
+		<div className='mb-4 flex h-12 w-full place-content-evenly items-center'>
 			{buttons.map(button => (
 				<button
 					type='submit'

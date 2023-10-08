@@ -1,9 +1,7 @@
 import { Component } from 'react';
 import { Section } from './Section/Section';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
-import { Notification } from './Notification/Notification';
 import { Statistics } from './Statistics/Statistics';
-import { StatisticsTitle } from './StatisticsTitle/StatisticsTitle';
 export class App extends Component {
 	state = {
 		good: 0,
@@ -39,18 +37,12 @@ export class App extends Component {
 						buttons={this.buttons}
 						onChangeFeedback={this.onChangeFeedback}
 					/>
-					<StatisticsTitle
-						title={this.statisticsTitle}
-					/>
-          {this.countTotalFeedback() ? (
             <Statistics
                feedback={this.state}
 					totalFeedback={this.countTotalFeedback()}
 					positiveFeedback={this.countPositiveFeedbackPercentage()}
+					notificationText={this.notificationText}
 				/>
-					) : (
-				<Notification notificationText={this.notificationText}/>
-					)}
 				</Section>
 			</>
 		);
